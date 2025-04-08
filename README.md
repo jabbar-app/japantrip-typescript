@@ -112,4 +112,4 @@ This project is open-source and available under the [MIT License](LICENSE).
 
 ---
 
-Made with passion by [Jabbar Ali Panggabean](https://www.linkedin.com/in/jabbaralip/). Contributions welcome!
+Made with passion by [Jabbar Ali Panggabean](https://www.linkedin.com/in/jabbarpanggabean/). Contributions welcome!
