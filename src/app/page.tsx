@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import Navbar from '@/components/Navbar'
+import Image from 'next/image'
 
 type Destination = {
   id: string
@@ -71,11 +72,14 @@ export default function HomePage() {
               .map((dest) => (
                 <Link key={dest.id} href={`/destinations/`}> {/* Dynamic route for each destination */}
                   <div className="bg-background border rounded-lg shadow hover:shadow-lg transition">
-                    <img
-                      className="rounded-t-lg w-full h-48 object-cover"
-                      src={dest.imageUrl || 'https://via.placeholder.com/400x300'} // Default image URL
-                      alt={dest.name}
-                    />
+                    <div className="relative w-full h-48">
+                      <Image
+                        src={dest.imageUrl || 'https://via.placeholder.com/400x300'}
+                        alt={dest.name}
+                        fill
+                        className="object-cover rounded-t-lg"
+                      />
+                    </div>
                     <div className="p-5">
                       <h5 className="text-xl font-bold">{dest.name}</h5>
                       <p className="mt-2 text-sm text-muted-foreground">{dest.city}</p>

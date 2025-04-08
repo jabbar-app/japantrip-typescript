@@ -1,4 +1,3 @@
-// columns.tsx
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, Eye, Trash2, Pencil } from "lucide-react"
 import { Button } from "@/components/ui/button"
