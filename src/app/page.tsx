@@ -1,103 +1,160 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
+import Navbar from '@/components/Navbar'
+
+type Destination = {
+  id: string
+  name: string
+  city: string
+  description: string
+  imageUrl: string
+  visitDurationHours: number
+  rating: number
+  category: string
+  recommendedTime: string
+  priority: number
+  isIndoor: boolean
+  hasTicket: boolean
+  ticketPriceYen: number
+  openHour: string
+  closeHour: string
+  link_gmaps: string
+  suitableForKids: boolean
+  estimatedWalkMinutesFromPrevious: number
+}
+
+export default function HomePage() {
+  const [destinations, setDestinations] = useState<Destination[]>([])
+
+  useEffect(() => {
+    fetch('/api/destinations')
+      .then((res) => res.json())
+      .then((data) => setDestinations(data))
+  }, [])
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <Navbar />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+      <main className="min-h-screen text-foreground">
+        {/* Hero Section */}
+        <section id="hero">
+          <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12">
+            <div className="inline-flex items-center py-1 px-1 pr-4 mb-7 text-sm text-muted-foreground bg-muted rounded-full hover:bg-muted/80">
+              <span className="text-xs bg-primary text-white px-4 py-1.5 rounded-full mr-3">
+                New
+              </span>
+              <span className="text-sm font-medium">JapanTrip is live! See what`s new</span>
+            </div>
+            <h1 className="mb-4 text-4xl font-extrabold">Japan Travel Itinerary Planner</h1>
+            <p className="mb-8 text-lg text-muted-foreground lg:text-xl sm:px-16 xl:px-48">
+              At SmartTrip, we focus on unlocking Japan`s hidden gems and ensuring your travel dreams come true.
+            </p>
+            <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
+              <Button asChild variant="outline" size="lg">
+                <Link href="#">Watch Tutorial</Link>
+              </Button>
+
+              <Button asChild size="lg">
+                <Link href="/destinations">Explore destinations</Link>
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-6">
+            {destinations
+              .sort((a, b) => a.priority - b.priority)
+              .slice(0, 4)
+              .map((dest) => (
+                <div
+                  key={dest.id}
+                  className="bg-background border rounded-lg shadow hover:shadow-lg transition"
+                >
+                  <img
+                    className="rounded-t-lg w-full h-48 object-cover"
+                    src={dest.imageUrl || 'https://via.placeholder.com/400x300'}
+                    alt={dest.name}
+                  />
+                  <div className="p-5">
+                    <h5 className="text-xl font-bold">{dest.name}</h5>
+                    <p className="mt-2 text-sm text-muted-foreground">{dest.city}</p>
+                  </div>
+                </div>
+              ))}
+          </div>
+
+          {destinations.length === 0 && (
+            <div className="text-center text-muted-foreground mt-6">
+              No destinations found. Please check back later!
+            </div>
+          )}
+
+          <div className="text-center mt-12">
+            <Button asChild variant="secondary" size="lg">
+              <Link href="/destinations">More places</Link>
+            </Button>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section id="features" className="py-20">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-12">
+              <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-sm font-medium">
+                Useful Features
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold mt-4 mb-2">
+                Plan Your Dream Trip to Japan with Ease
+              </h2>
+              <p className="text-muted-foreground max-w-xl mx-auto">
+                JapanTrip is your personal assistant to build perfect itineraries, explore top destinations, and travel smarter.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+              {features.map((feature, idx) => (
+                <FeatureBox key={idx} title={feature.title} desc={feature.desc} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 bg-blue-50 dark:bg-blue-950">
+          <div className="container mx-auto px-4 text-center">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Start planning today</h2>
+            <p className="text-muted-foreground mb-8">
+              Select all your destinations and let us create the itinerary for you!
+            </p>
+            <Link href="/destinations">
+              <Button size="lg">Explore now</Button>
+            </Link>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+    </>
+  )
+}
+
+const features = [
+  { title: 'Smart Itinerary Generator', desc: 'Auto-generate optimized travel plans based on your time, interests, and preferences.' },
+  { title: 'Destination Explorer', desc: 'Browse curated destinations by city, category, rating, or indoor/outdoor activities.' },
+  { title: 'Personalized Schedule', desc: 'Adjust visit duration, opening hours, and travel time to fit your travel style.' },
+  { title: 'Multi-City Planning', desc: 'Effortlessly plan routes across Tokyo, Kyoto, Osaka, and more in one unified timeline.' },
+  { title: 'Offline Access', desc: 'Download your itinerary and maps for offline access during your trip.' },
+  { title: 'Itinerary Sharing', desc: 'Share your travel plans with friends or export as printable documents.' }
+]
+
+function FeatureBox({ title, desc }: { title: string; desc: string }) {
+  return (
+    <div className="text-center p-6 border rounded-xl hover:shadow-lg transition">
+      <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 text-blue-600 flex items-center justify-center rounded-full text-2xl font-bold">
+        ✓
+      </div>
+      <h3 className="text-xl font-semibold mb-2">{title}</h3>
+      <p className="text-muted-foreground text-sm">{desc}</p>
     </div>
-  );
+  )
 }
