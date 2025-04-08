@@ -59,30 +59,29 @@ export default function HomePage() {
               </Button>
 
               <Button asChild size="lg">
-                <Link href="/destinations">Explore destinations</Link>
+                <Link href="/destinations">Start create itinerary</Link>
               </Button>
             </div>
           </div>
 
           <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 px-6">
             {destinations
-              .sort((a, b) => a.priority - b.priority)
-              .slice(0, 4)
+              .sort((a, b) => a.priority - b.priority) // Sort destinations by priority
+              .slice(0, 4) // Slice the first 4 items
               .map((dest) => (
-                <div
-                  key={dest.id}
-                  className="bg-background border rounded-lg shadow hover:shadow-lg transition"
-                >
-                  <img
-                    className="rounded-t-lg w-full h-48 object-cover"
-                    src={dest.imageUrl || 'https://via.placeholder.com/400x300'}
-                    alt={dest.name}
-                  />
-                  <div className="p-5">
-                    <h5 className="text-xl font-bold">{dest.name}</h5>
-                    <p className="mt-2 text-sm text-muted-foreground">{dest.city}</p>
+                <Link key={dest.id} href={`/destinations/`}> {/* Dynamic route for each destination */}
+                  <div className="bg-background border rounded-lg shadow hover:shadow-lg transition">
+                    <img
+                      className="rounded-t-lg w-full h-48 object-cover"
+                      src={dest.imageUrl || 'https://via.placeholder.com/400x300'} // Default image URL
+                      alt={dest.name}
+                    />
+                    <div className="p-5">
+                      <h5 className="text-xl font-bold">{dest.name}</h5>
+                      <p className="mt-2 text-sm text-muted-foreground">{dest.city}</p>
+                    </div>
                   </div>
-                </div>
+                </Link>
               ))}
           </div>
 
@@ -93,8 +92,8 @@ export default function HomePage() {
           )}
 
           <div className="text-center mt-12">
-            <Button asChild variant="secondary" size="lg">
-              <Link href="/destinations">More places</Link>
+            <Button asChild variant="outlinePrimary" size="lg">
+              <Link href="/destinations">Explore destinations</Link>
             </Button>
           </div>
         </section>

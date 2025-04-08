@@ -36,7 +36,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem('user')
     document.cookie = 'token=; Max-Age=0; path=/'
-    router.refresh()
+    router.push('/')
   }
 
   return (
@@ -52,7 +52,7 @@ const Header = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="outlinePrimary">
+                  variant="outlinePrimary" className='cursor-pointer'>
                   Hi, {user.name}
                 </Button>
               </DropdownMenuTrigger>
@@ -90,12 +90,13 @@ const Header = () => {
             </DropdownMenu>
           ) : (
             <>
-              <Link href="/login">
-                <Button variant="outline">Login</Button>
-              </Link>
-              <Link href="/register">
-                <Button>Register</Button>
-              </Link>
+
+              <Button variant="outline" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+              <Button asChild>
+                <Link href="/register">Register</Link>
+              </Button>
             </>
           )}
         </div>

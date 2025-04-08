@@ -1,7 +1,7 @@
-// middleware.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
+// Daftar halaman publik yang bisa diakses tanpa token
 const publicPaths = [
   '/',
   '/home',
@@ -11,13 +11,15 @@ const publicPaths = [
   '/register',
   '/favicon.ico',
   /^\/images\/.*$/,
-  /^\/api\/auth\/.*$/, // allow login, register API
-  /^\/api\/public\/.*$/, // if you have public APIs
-  /^\/_next\/.*$/, // allow Next.js internal resources
-  /^\/static\/.*$/ // allow static files
+  /^\/api\/auth\/.*$/,
+  /^\/api\/public\/.*$/,
+  /^\/_next\/.*$/,
+  /^\/static\/.*$/,
 ]
 
 export function middleware(request: NextRequest) {
+  console.log('Middleware running...') // Pastikan middleware dijalankan
+
   const { pathname } = request.nextUrl
 
   const isPublic = publicPaths.some(path => {
@@ -26,38 +28,20 @@ export function middleware(request: NextRequest) {
     return false
   })
 
-  const token = request.cookies.get('token')?.value
+  console.log('Is Public Path:', isPublic)
 
-  // Jika halaman publik, izinkan
+  // Jika halaman publik, lanjutkan tanpa gangguan
   if (isPublic) {
-    // Tapi kalau user sudah login, redirect dari /login atau /register ke dashboard
-    if (token && (pathname === '/login' || pathname === '/register')) {
-      const dashboardUrl = request.nextUrl.clone()
-      dashboardUrl.pathname = '/dashboard'
-      return NextResponse.redirect(dashboardUrl)
-    }
-
     return NextResponse.next()
   }
 
-  // Jika halaman privat dan tidak ada token, redirect ke login
-  if (!token) {
-    const loginUrl = request.nextUrl.clone()
-    loginUrl.pathname = '/login'
-    loginUrl.searchParams.set('callbackUrl', pathname)
-    return NextResponse.redirect(loginUrl)
-  }
-
+  // Jika halaman privat, pastikan pengguna tidak dapat mengakses tanpa token
+  // Middleware ini tidak mengatur redirect untuk login, karena sudah ditangani di Navbar.tsx
   return NextResponse.next()
 }
 
 export const config = {
   matcher: [
-    /*
-      Hanya intercept halaman-halaman:
-      - selain static (_next, favicon, images, dll)
-      - kecuali api/public (jika kamu pakai)
-    */
-    '/((?!api/public|_next/static|_next/image|favicon.ico|static).*)'
+    '/((?!api/public|_next/static|_next/image|favicon.ico|static).*)' // Mengintersep semua halaman kecuali yang ada dalam pengecualian
   ]
 }
