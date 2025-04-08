@@ -1,36 +1,115 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🇯🇵 Japan Smart Trip Planner
 
-## Getting Started
+An open-source, developer-friendly trip planning tool tailored for first-time travelers to Japan — built with a TypeScript-first mindset for both frontend and backend.
 
-First, run the development server:
+🚀 [Live Demo](https://japan-trip.jabbar.id)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Overview
+
+Planning a trip to Japan can be overwhelming — multiple destinations, schedules, ticketing, and cultural considerations. This app simplifies that process by allowing users to visually build and manage their daily itineraries across Japanese cities using a beautiful, interactive interface.
+
+More than just a travel tool, this project is also a showcase of clean architecture, modular structure, and scalable TypeScript design across the stack.
+
+---
+
+## 🧠 Key Features
+
+- 🔐 **User Authentication**: Register, login, logout using JWT
+- 🗺️ **Destination Explorer**: Filter, sort, and view details of Japanese destinations
+- 🗓️ **FAB List Builder**: Add destinations into a floating list (like a cart)
+- 🕒 **Drag-and-Drop Timeline**: Plan daily itinerary using an interactive timeline UI
+- ✍️ **CRUD Itineraries**: Create, edit, delete plans with support for multiple days
+- 📊 **Dashboard Overview**: View insights on total destinations & itineraries
+- 📱 **Responsive UI**: Built mobile-first with Tailwind + MUI
+- 💾 **Data Persistence**: MySQL + Prisma for relational schema modeling
+- 🛠️ **Full Admin Management**: Add/Edit/Delete destinations and itineraries
+- 📦 **API-first Architecture**: REST endpoints for all resources
+
+---
+
+## ⚙️ Tech Stack
+
+### Frontend
+
+- **Framework**: Next.js (App Router)
+- **Language**: TypeScript
+- **Styling**: TailwindCSS, MUI (Material UI)
+- **State Management**: React Hooks (`useState`, `useEffect`)
+- **UX Enhancements**: Framer Motion, ShadCN UI
+
+### Backend
+
+- **API**: REST using Next.js API Routes (`/api/...`)
+- **Languages**: TypeScript (strict mode)
+- **Server Frameworks**: Fastify, Express (optional switchable), NestJS (in future)
+- **ORM**: Prisma (strict schema typing, TS inference)
+- **Database**: MySQL
+
+### Deployment
+
+- **Hosting**: Google Cloud Platform (GCP App Engine & Cloud SQL)
+- **Frontend**: Vercel (Edge API-ready)
+- **DevOps**: GitHub Actions for CI/CD (coming soon)
+
+---
+
+## 📁 Folder Structure
+
+```
+🔺 app/
+└── destinations/        # Destination explore pages
+└── itineraries/         # Timeline builder and viewer
+└── dashboard/           # Stats and summaries
+└── api/                 # API endpoints (REST, typed)
+🔺 components/              # UI building blocks (Navbar, Sidebar, etc.)
+🔺 lib/                     # Utils, database (Prisma), and helper modules
+🔺 prisma/                  # schema.prisma and seed
+🔺 public/                  # Static assets
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🧪 Best Practices & Code Patterns
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ✅ Advanced TypeScript Techniques
 
-## Learn More
+- Strong typing on `req.body`, `params`, `query` inside API routes
+- Reusable types for DTOs and form models
+- Prisma auto-inference to reduce manual typing
+- Custom utility types for form validation and transformation
 
-To learn more about Next.js, take a look at the following resources:
+### ✅ Clean Code Practices
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Modular directory-based routing with isolated component scopes
+- Drag & drop system using React DnD + local state
+- Separation of concern: `lib/`, `components/`, `views/`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🛠️ Local Development
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+git clone https://github.com/jabbar-app/japantrip-typescript.git
+cd japantrip-typescript
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Install dependencies
+npm install
+
+# Setup environment
+cp .env.example .env.local
+
+# Run locally
+dev
+```
+
+---
+
+## 📁 License
+
+This project is open-source and available under the [MIT License](LICENSE).
+
+---
+
+Made with passion by [Jabbar Ali Panggabean](https://www.linkedin.com/in/jabbaralip/). Contributions welcome!
